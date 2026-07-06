@@ -10,6 +10,16 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
+  jobs:
+    post_checkout:
+      - |
+        PO_LOCALES=docs/locales
+        PO_REPOURL=https://github.com/localizethedocs/highlightjs-docs-l10n.git
+        case "$READTHEDOCS_VERSION" in
+          latest) PO_BRANCH="po/latest";;
+          stable) PO_BRANCH="po/stable";;
+        esac
+        git clone --branch=$PO_BRANCH $PO_REPOURL $PO_LOCALES
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
